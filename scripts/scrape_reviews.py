@@ -18,7 +18,7 @@ for bank, app_id in apps.items():
         lang="en",
         country="et",
         sort=Sort.NEWEST,
-        count=500
+        count=800
     )
 
     print(f"Collected {len(result)} reviews.")
@@ -56,3 +56,12 @@ print(df.head())
 df.to_csv("data/raw/bank_reviews_clean.csv", index=False)
 
 print("\nClean dataset saved successfully.")
+
+print("\nReviews per bank:")
+print(df["bank"].value_counts())
+
+print("\nMissing values:")
+print(df.isnull().sum())
+
+print("\nFinal dataset shape:")
+print(df.shape)

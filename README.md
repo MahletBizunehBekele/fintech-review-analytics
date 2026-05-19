@@ -2,37 +2,46 @@
 
 ## Overview
 
-This project analyzes customer reviews from Ethiopian banking mobile applications using NLP and sentiment analysis techniques.
+This project analyzes customer reviews from Ethiopian banking mobile applications to uncover customer satisfaction drivers, recurring complaints, and feature requests using NLP and sentiment analysis techniques. The project simulates a real-world fintech analytics workflow for Omega Consultancy, supporting data-driven product recommendations for Ethiopian banks.
 
 Banks analyzed:
 - Commercial Bank of Ethiopia (CBE)
 - Bank of Abyssinia (BOA)
 - Dashen Bank
 
+---
+
 ## Data Collection
 
-Reviews were collected from the Google Play Store using the google-play-scraper library.
+Reviews were collected from the Google Play Store using the `google-play-scraper` Python library.
 
 Collected fields:
 - review text
-- rating
+- star rating (1–5)
 - review date
 - bank name
-- source
+- review source
 
-A minimum of 400 reviews per bank were targeted.
+The scraping pipeline targeted a minimum of 400 reviews per bank. Reviews were collected using the `Sort.NEWEST` option to capture recent customer feedback.
+
+---
 
 ## Preprocessing
 
 The preprocessing pipeline:
 - removed duplicate reviews
-- removed missing values
-- normalized dates to YYYY-MM-DD format
-- removed empty reviews
+- removed rows with missing review text or ratings
+- filtered empty reviews
+- normalized dates to `YYYY-MM-DD` format
+- serialized the cleaned dataset into CSV format
 
-## Technologies
+The cleaned dataset is excluded from Git version control through `.gitignore`.
 
-- Python
-- pandas
-- google-play-scraper
-- GitHub Actions
+---
+
+## Sentiment and Thematic Analysis
+
+Sentiment analysis was performed using the Hugging Face transformer model:
+
+```python
+distilbert-base-uncased-finetuned-sst-2-english

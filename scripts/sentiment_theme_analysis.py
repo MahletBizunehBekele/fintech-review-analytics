@@ -175,13 +175,45 @@ df["identified_theme"] = df["cleaned_review"].apply(assign_theme)
 print("Theme assignment complete.")
 
 # =========================
+# SENTIMENT BY BANK
+# =========================
+import matplotlib.pyplot as plt
+bank_sentiment = (
+    df.groupby(["bank", "sentiment_label"])
+    .size()
+    .unstack(fill_value=0)
+)
+
+bank_sentiment.plot(
+    kind="bar",
+    figsize=(8,5)
+)
+
+plt.title("Sentiment Distribution by Bank")
+
+plt.xlabel("Bank")
+
+plt.ylabel("Number of Reviews")
+
+plt.xticks(rotation=0)
+
+plt.tight_layout()
+
+plt.savefig("sentiment_by_bank.png")
+
+print("Bank sentiment visualization saved.")
+
+# =========================
 # SAVE RESULTS
 # =========================
 
 final_df = df[
     [
         "review_id",
+        "bank",
         "review",
+        "rating",
+        "date",
         "sentiment_label",
         "sentiment_score",
         "identified_theme"
@@ -206,3 +238,14 @@ print("\nThemes:")
 print(
     df["identified_theme"].value_counts()
 )
+
+
+sentiment_counts = df["sentiment_label"].value_counts()
+plt.figure(figsize=(6,4))
+sentiment_counts.plot(kind="bar")
+plt.title("Sentiment Distribution")
+plt.xlabel("Sentiment")
+plt.ylabel("Number of Reviews")
+plt.tight_layout()
+plt.savefig("sentiment_distribution.png")
+print("Visualization saved.")
